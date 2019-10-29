@@ -68,6 +68,16 @@ class ClaspOptTAE(ExecuteTARun):
                 for line in f.readlines():
                    self.best_known[line.split(',')[0].strip()]=int(line.split(',')[1].strip())
 
+        self.encoding = ""
+
+        self.mode = "clasp"
+
+        if "encoding" in misc:
+            self.encoding = misc["encoding"]
+
+        if "mode" in misc:
+            self.mode = misc["mode"]
+
     def run(self, config, instance,
             cutoff,
             seed=12345,
@@ -104,9 +114,9 @@ class ClaspOptTAE(ExecuteTARun):
 
         
         if not instance.endswith(".gz"):
-            cmd = "%s %s --seed %d " %(self.ta_bin, instance, seed)       
+            cmd = "{bin} {encoding} {instance} --seed {seed} ".format(bin=self.ta_bin, encoding=self.encoding, instance=instance, seed=seed)       
         else:
-            cmd = "bash -c 'zcat %s | %s --seed %d " %(instance, self.ta_bin, seed )       
+            cmd = "bash -c 'zcat {instance} | {bin} {encoding} --seed {seed} ".format(instance=instance, bin=self.ta_bin, encoding=self.encoding, seed=seed )       
         
         params = []
         for name in config:
@@ -121,7 +131,9 @@ class ClaspOptTAE(ExecuteTARun):
              for p in p_list:
                  cmd += " "+p
         
-        cmd += " --mode=clasp"
+        cmd += " --mode={}".format(self.mode)
+
+        cmd += " --quiet=2 --stats"
         
         if instance.endswith(".gz"):
            cmd += "'"
@@ -138,7 +150,7 @@ class ClaspOptTAE(ExecuteTARun):
         
         cmd = "setsid %s -C %d -M %d -w %s -o %s %s" %(self.runsolver_bin, cutoff, self.memlimit, watcher_file, solver_file, cmd) 
 
-        self.logger.debug("Calling: %s" % (cmd))
+        self.logger.info("Calling: %s" % (cmd))
         p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
         stdout_, stderr_ = p.communicate()
 
@@ -147,8 +159,11 @@ class ClaspOptTAE(ExecuteTARun):
         
         ta_status_rs, ta_runtime, ta_exit_code = self.read_runsolver_output(watcher_file)
 
-        ta_status, ta_quality = self.parse_output(fn=solver_file, exit_code=ta_exit_code)
+        ta_status, ta_quality, clingo_runtime = self.parse_output(fn=solver_file, exit_code=ta_exit_code)
         
+        if ta_runtime is None:
+            ta_runtime = clingo_runtime
+            
         if not ta_status:
             ta_status = ta_status_rs
 
@@ -168,7 +183,7 @@ class ClaspOptTAE(ExecuteTARun):
             diff = float(ta_quality) - float(best)
             prct = float(best)/100.0 if best!=0 else 1.0
             cost = min(float(cutoff * self.par_factor),ta_runtime*(1+diff/prct))
-            
+        
         return ta_status, cost, ta_runtime, {}
     
     def parse_parameters(self, params,prefix="--",separator="="):
@@ -383,12 +398,14 @@ class ClaspOptTAE(ExecuteTARun):
             ta_status = StatusType.SUCCESS
         elif re.search('OPTIMUM FOUND', data):
             ta_status = StatusType.SUCCESS
-        elif re.search('s UNKNOWN', data):
+        elif re.search('UNKNOWN', data):
             ta_status = StatusType.TIMEOUT
         elif re.search('INDETERMINATE', data):
             ta_status = StatusType.TIMEOUT
+
+        clingo_runtime = re.search(r"Time[ ]*:[ ]*(\d+\.\d+)s", data).group(1)
         
-        return ta_status, ta_quality 
+        return ta_status, ta_quality, float(clingo_runtime)
 
     def read_runsolver_output(self, watcher_fn: str):
         '''
