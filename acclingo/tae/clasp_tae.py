@@ -61,6 +61,16 @@ class ClaspTAE(ExecuteTARun):
         self.ta_bin = ta_bin
         self.runsolver_bin = runsolver_bin
         self.memlimit = memlimit
+
+        self.encoding = ""
+
+        self.mode = "clasp"
+
+        if "encoding" in misc:
+            self.encoding = misc["encoding"]
+
+        if "mode" in misc:
+            self.mode = misc["mode"]
         
 
     def run(self, config, instance,
@@ -99,9 +109,9 @@ class ClaspTAE(ExecuteTARun):
 
         
         if not instance.endswith(".gz"):
-            cmd = "%s %s --seed %d " %(self.ta_bin, instance, seed)       
+            cmd = "{bin} {encoding} {instance} --seed {seed} ".format(bin=self.ta_bin, encoding=self.encoding, instance=instance, seed=seed)       
         else:
-            cmd = "bash -c 'zcat %s | %s --seed %d " %(instance, self.ta_bin, seed )       
+            cmd = "bash -c 'zcat {instance} | {bin} {encoding} --seed {seed} ".format(instance=instance, bin=self.ta_bin, encoding=self.encoding, seed=seed )       
         
         params = []
         for name in config:
@@ -116,7 +126,9 @@ class ClaspTAE(ExecuteTARun):
              for p in p_list:
                  cmd += " "+p
         
-        cmd += " --mode=clasp"
+        cmd += " --mode={}".format(self.mode)
+
+        cmd += " --quiet=2 --stats"
         
         if instance.endswith(".gz"):
            cmd += "'"
@@ -363,6 +375,8 @@ class ClaspTAE(ExecuteTARun):
         if re.search('UNSATISFIABLE', data):
             ta_status = StatusType.SUCCESS
         elif re.search('SATISFIABLE', data):
+            ta_status = StatusType.SUCCESS
+        elif re.search('OPTIMUM FOUND', data):
             ta_status = StatusType.SUCCESS
         elif re.search('s UNKNOWN', data):
             ta_status = StatusType.TIMEOUT
