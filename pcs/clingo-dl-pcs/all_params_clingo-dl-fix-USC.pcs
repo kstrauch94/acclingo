@@ -26,7 +26,7 @@ Generating pcs file...
 @0:S:add-mutexes-CUT {yes,no}[no]
 @0:2:add-mutexes | @0:S:add-mutexes-CUT in {yes}
 
-@0:file {/home/klaus/Desktop/Work/clingo-dl/encoding/static_decide.lp}[/home/klaus/Desktop/Work/clingo-dl/encoding/static_decide.lp]
+@0:file {/home/kstrauch/train-encoding-and-instances/encoding/static_decide.lp}[/home/kstrauch/train-encoding-and-instances/encoding/static_decide.lp]
 @0:S:use_static_decide {yes,no}[yes]
 @0:file | @0:S:use_static_decide in {yes}
 
@@ -85,8 +85,8 @@ Generating pcs file...
 @1:1:dom-mod {0,1,8,24}[0] # Conditional - heuristic=Domain
 @1:save-progress [0,180][180]i
 @1:init-watches {rnd,first,least}[least]
-@1:1:lookahead {atom,body,hybrid,no}[no]
-@1:2:lookahead [1,2147483647][1]il # Conditional - 1:lookahead != no
+#@1:1:lookahead {atom,body,hybrid,no}[no]
+#@1:2:lookahead [1,2147483647][1]il # Conditional - 1:lookahead != no
 @1:rand-freq {0.0,0.01,0.02,0.05,0.1}[0.0]
 # --- RESTARTS
 @1:0:restarts {F,L,D,x,+,no}[x]
@@ -184,7 +184,7 @@ Generating pcs file...
 @1:1:vsids-progress | @1:S:vsids-progress in {yes}
 @1:2:vsids-progress | @1:S:vsids-progress in {yes}
 @1:3:vsids-progress | @1:S:vsids-progress in {yes}
-@1:2:lookahead | @1:1:lookahead in {atom,body,hybrid}
+#@1:2:lookahead | @1:1:lookahead in {atom,body,hybrid}
 # opt conds
 @1:1:USC:opt-strategy | @1:0:opt-strategy in {usc}
 @1:2:USC:opt-strategy | @1:1:USC:opt-strategy in {oll,one,pmres}

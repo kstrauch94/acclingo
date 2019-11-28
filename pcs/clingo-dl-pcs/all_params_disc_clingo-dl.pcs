@@ -27,7 +27,7 @@ Generating pcs file...
 @0:S:add-mutexes-CUT {yes,no}[no]
 @0:2:add-mutexes | @0:S:add-mutexes-CUT in {yes}
 
-@0:file {/home/klaus/Desktop/Work/clingo-dl/encoding/static_decide.lp}[/home/klaus/Desktop/Work/clingo-dl/encoding/static_decide.lp]
+@0:file {/home/kstrauch/train-encoding-and-instances/encoding/static_decide.lp}[/home/kstrauch/train-encoding-and-instances/encoding/static_decide.lp]
 @0:S:use_static_decide {yes,no}[yes]
 @0:file | @0:S:use_static_decide in {yes}
 

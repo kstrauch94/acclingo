@@ -155,7 +155,7 @@ class ClaspTAE(ExecuteTARun):
         ta_status_rs, ta_runtime, ta_exit_code = self.read_runsolver_output(watcher_file)
 
         ta_status, ta_quality = self.parse_output(fn=solver_file, exit_code=ta_exit_code)
-        
+
         if not ta_status:
             ta_status = ta_status_rs
 
