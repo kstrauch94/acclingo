@@ -135,14 +135,8 @@ class ClaspTAE(ExecuteTARun):
                 else:
                     cfile.write("[{}]: {}\n".format(configuration, " ".join(p_list)))
         
-<<<<<<< HEAD
-        cmd += " --mode={}".format(self.mode)
-
-        cmd += " --quiet=2 --stats"
-=======
         cmd += " --mode=clasp"
         cmd += " --configuration={}".format(config_file)
->>>>>>> master
         
         if instance.endswith(".gz"):
            cmd += "'"
