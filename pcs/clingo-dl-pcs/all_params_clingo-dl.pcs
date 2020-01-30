@@ -11,7 +11,7 @@ Generating pcs file...
 # l : logarithmic transformation (n > 0)
 # -----
 # --- Clingo-DL Options
-@0:propagate {no,inverse,partial,partial+,full}[no]
+@0:propagate {no,inverse,partial,partial+,full}[partial]
 @0:propagate-root {0,1,2,3}[0]
 @0:propagate-budget {0,5,10,50,100}[0]
 
@@ -66,7 +66,7 @@ Generating pcs file...
 @1:F:restart-on-model {yes,no}[no]
 @1:reset-restarts {no,repeat,disable}[no]
 # --- HEURISTICS
-@1:0:heuristic {Berkmin,Vmtf,Vsids,Unit,Domain,None}[Vsids]
+@1:0:heuristic {Berkmin,Vmtf,Vsids,Unit,Domain,None}[Domain]
 @1:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [95] # Conditional - heuristic=vsids
 @1:1:vmtf:heuristic [1,128][8]il # Conditional - heuristic=vmtf
 @1:1:berk:heuristic {0,128,256,512,1024,2048}[0] # Conditional - heuristic=berkmin
