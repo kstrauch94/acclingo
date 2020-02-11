@@ -121,7 +121,8 @@ class ClaspTAE(ExecuteTARun):
             params.append(name)
             params.append(value)
         thread_to_params, thread_to_solver, params_to_tags = self.parse_parameters(params)
-        
+       
+        thread_count = int(max(thread_to_params.keys()))
         config_file = "config_file.tmp"
         configuration = "auto"
         with open(config_file, "w") as cfile:
@@ -137,6 +138,8 @@ class ClaspTAE(ExecuteTARun):
         
         cmd += " --mode={}".format(self.mode)
         cmd += " --configuration={}".format(config_file)
+        cmd += " --quiet=2"
+        cmd += " --parallel-mode={}".format(thread_count)
         
         if instance.endswith(".gz"):
            cmd += "'"
