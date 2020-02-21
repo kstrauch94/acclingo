@@ -124,17 +124,21 @@ class ClaspTAE(ExecuteTARun):
        
         thread_count = int(max(thread_to_params.keys()))
         config_file = "config_file.tmp"
-        configuration = "auto"
         with open(config_file, "w") as cfile:
             for t, p_list in thread_to_params.items():
                 if t == 0: # global params
                     for p in p_list:
-                        if "--configuration" not in p:
                             cmd += " " + p
-                        else:
-                            configuration = p.split("=")[1]
                 else:
-                    cfile.write("[{}]: {}\n".format(configuration, " ".join(p_list)))
+                    new_p_list = []
+                    thread_config = "auto"
+                    for p in p_list:
+                        if "--configuration" in p:
+                            thread_config = p.split("=")[1]
+                        else:
+                            new_p_list.append(p)
+
+                    cfile.write("[{}]: {}\n".format(thread_config, " ".join(new_p_list)))
         
         cmd += " --mode={}".format(self.mode)
         cmd += " --configuration={}".format(config_file)
