@@ -138,7 +138,7 @@ class ClaspTAE(ExecuteTARun):
                         else:
                             new_p_list.append(p)
 
-                    cfile.write("[{}]: {}\n".format(thread_config, " ".join(new_p_list)))
+                    cfile.write("{}({}): {}\n".format(t, thread_config, " ".join(new_p_list)))
         
         cmd += " --mode={}".format(self.mode)
         cmd += " --configuration={}".format(config_file)
