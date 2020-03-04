@@ -85,7 +85,7 @@
 @1:0:dom-mod {no,level,pos,true,neg,false,init,factor}[no] # Conditional - heuristic=Domain
 @1:1:dom-mod {0,1,8,24}[0] # Conditional - heuristic=Domain
 @1:save-progress [0,180][0]i
-@1:init-watches {rnd,first,least}[rnd3]
+@1:init-watches {rnd,first,least}[rnd]
 @1:1:lookahead {atom,body,hybrid,no}[no]
 @1:2:lookahead [1,2147483647][1]il # Conditional - 1:lookahead != no
 @1:rand-freq {0.0,0.01,0.02,0.05,0.1}[0.0]
