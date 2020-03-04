@@ -32,7 +32,7 @@
 # --- PREPROCESSING - global options
 @0:solver {clasp3}[clasp3]
 @0:F:learn-explicit{yes,no}[no]
-@0:S:sat-prepro {yes,no}[yes]
+@0:S:sat-prepro {yes,no}[no]
 @0:sat-prepro {0}[0]
 @0:1:sat-prepro {1,2,3}[2] # algo type
 @0:2:sat-prepro [1,50][13]il # iterations
@@ -48,9 +48,9 @@
 @0:F:no-gamma{yes,no}[no]
 @0:trans-ext {all,choice,card,weight,integ,dynamic,no}[no]
 
-@1:configuration {auto,frumpy,jumpy,tweety,handy,crafty,trendy}[crafty] # default config for options not explicitly given
-@1:partial-check {0,10,20,30,40,50}[50] # only for disjunctive ASP
-@1:loops {common,distinct,shared,no}[shared]
+@1:configuration {auto,frumpy,jumpy,tweety,handy,crafty,trendy}[auto] # default config for options not explicitly given
+@1:partial-check {0,10,20,30,40,50}[0] # only for disjunctive ASP
+@1:loops {common,distinct,shared,no}[common]
 @1:score-other {no,loop,all}[loop]
 # @1:enum-mode {bt, record, auto}[auto]
 # OPTIMIZATION OPTIONS
@@ -63,11 +63,11 @@
 @1:1:opt-usc-shrink [0,12][10]i
 @1:1:BB:opt-strategy {lin,hier,inc,dec}[lin]
 @1:opt-heuristic {0,1,2,3}[0]
-@1:F:restart-on-model {yes,no}[yes]
+@1:F:restart-on-model {yes,no}[no]
 @1:reset-restarts {no,repeat,disable}[no]
 # --- HEURISTICS
 @1:0:heuristic {Berkmin,Vmtf,Vsids,Unit,Domain,None}[Domain]
-@1:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [95] # Conditional - heuristic=vsids
+@1:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [0] # Conditional - heuristic=vsids
 @1:1:vmtf:heuristic [1,128][8]il # Conditional - heuristic=vmtf
 @1:1:berk:heuristic {0,128,256,512,1024,2048}[0] # Conditional - heuristic=berkmin
 @1:S:vsids-progress {yes,no}[no]
@@ -75,24 +75,24 @@
 @1:1:vsids-progress [80,95][80]i # Conditional - heuristic=vsids
 @1:2:vsids-progress [1,15][1]i
 @1:3:vsids-progress [100,30000][5000]il
-@1:F:init-moms {yes,no}[no]
+@1:F:init-moms {yes,no}[yes]
 @1:F:nant {yes,no}[no]
-@1:sign-def {asp,pos,neg,rnd}[rnd]
-@1:F:sign-fix {yes,no}[yes]
-@1:score-res {min,set,multiset}[set] # Conditional - only for lookback heuristics
+@1:sign-def {asp,pos,neg,rnd}[asp]
+@1:F:sign-fix {yes,no}[no]
+@1:score-res {auto,min,set,multiset}[auto] # Conditional - only for lookback heuristics
 @1:F:berk-huang {yes,no}[no] # Conditional - heuristic=berkmin
 @1:F:vsids-acids {yes,no}[no] # Conditional - heuristic=vsids|doman
-@1:0:dom-mod {level,pos,true,neg,false,init,factor}[level] # Conditional - heuristic=Domain
+@1:0:dom-mod {no,level,pos,true,neg,false,init,factor}[no] # Conditional - heuristic=Domain
 @1:1:dom-mod {0,1,8,24}[0] # Conditional - heuristic=Domain
-@1:save-progress [0,180][180]i
-@1:init-watches {rnd,first,least}[least]
-#@1:1:lookahead {atom,body,hybrid,no}[no]
-#@1:2:lookahead [1,2147483647][1]il # Conditional - 1:lookahead != no
+@1:save-progress [0,180][0]i
+@1:init-watches {rnd,first,least}[rnd3]
+@1:1:lookahead {atom,body,hybrid,no}[no]
+@1:2:lookahead [1,2147483647][1]il # Conditional - 1:lookahead != no
 @1:rand-freq {0.0,0.01,0.02,0.05,0.1}[0.0]
 # --- RESTARTS
 @1:0:restarts {F,L,D,x,+,no}[x]
 # first parameter for all "normal" restarts
-@1:1:Simp:restarts [1,65535][128]il
+@1:1:Simp:restarts [1,65535][100]il
 # Luby restarts
 @1:S:Luby:aryrestarts {1,2}[1]
 @1:2:Luby:restarts [1,65535][1000]il
@@ -111,10 +111,10 @@
 @1:3:Dyn:restarts [20,127][32]il
 # Other restart options
 @1:F:local-restarts {yes,no}[no]
-@1:S:counterCond {yes,no} [yes]
+@1:S:counterCond {yes,no} [no]
 @1:1:counter-restarts [1,127][3]il
 @1:2:counter-restarts [10,16384][10]il
-@1:0:block-restarts {0,1000,2000,5000,7500,10000}[5000]
+@1:0:block-restarts {0,1000,2000,5000,7500,10000}[0]
 @1:1:block-restarts {1.2,1.4,1.6,1.8,2.0}[2.0]
 @1:2:block-restarts {0,5000,10000}[0]
 # --- DELETION
@@ -124,13 +124,13 @@
 @1:2:deletion [10,100][75]i # Fraction to remove
 @1:3:deletion {activity,lbd,mixed}[activity] # Score function
 @1:1:del-init [1.0,50.0][3.0]
-@1:2:del-init [10,1023][1023]il
-@1:3:del-init [500,32767][9960]i
-@1:del-max [32767,2147483647][250000]i
+@1:2:del-init [10,1023][10]il
+@1:3:del-init [500,32767][32767]i
+@1:del-max [32767,2147483647][2147483647]i
 @1:del-estimate {0,1,2,3}[0] # only for ASP + PB
 @1:del-on-restart [0,50][0]i
-@1:1:del-glue [0,8][2]i
-@1:2:del-glue {0,1}[1]
+@1:1:del-glue [0,8][0]i
+@1:2:del-glue {0,1}[0]
 @1:0:del-cfl {F,L,x,+,no}[no]
 # Deletion conflict schedule
 @1:1:del-cfl [1,65535][128]il
@@ -140,7 +140,7 @@
 @1:S:del-grow {yes,no}[yes] # Conditional: enable/disable grow strategy
 @1:del-grow {0}[0]
 @1:1:del-grow [1.0,5.0][1.1]
-@1:2:del-grow [0.0,100.0][20.0]
+@1:2:del-grow [0.0,100.0][3.0]
 @1:S:growSched {yes,no}[no]
 # Deletion size schedule
 @1:3:del-grow {F,L,x,+}[+]
@@ -152,12 +152,12 @@
 @1:0:strengthen {local,recursive,no}[local] # Conditional
 @1:1:strengthen {all,short,binary}[all]
 @1:2:strengthen {yes,no}[yes]
-@1:otfs {0,1,2}[2]
+@1:otfs {0,1,2}[0]
 @1:1:update-lbd {no,less,glucose,pseudo}[no]
 @1:2:update-lbd [0,30][0]i
 @1:F:update-act {yes,no}[no]
-@1:reverse-arcs {0,1,2,3}[1]
-@1:S:contraction {yes,no}[yes]
+@1:reverse-arcs {0,1,2,3}[0]
+@1:S:contraction {yes,no}[no]
 @1:No:contraction {no}[no]
 @1:contraction [1,1023][250]il # Conditional
 # --- CONDITIONS/CONSTRAINTS
@@ -185,7 +185,7 @@
 @1:1:vsids-progress | @1:S:vsids-progress in {yes}
 @1:2:vsids-progress | @1:S:vsids-progress in {yes}
 @1:3:vsids-progress | @1:S:vsids-progress in {yes}
-#@1:2:lookahead | @1:1:lookahead in {atom,body,hybrid}
+@1:2:lookahead | @1:1:lookahead in {atom,body,hybrid}
 # opt conds
 @1:1:BB:opt-strategy | @1:0:opt-strategy in {bb}
 @1:1:USC:opt-strategy | @1:0:opt-strategy in {usc}
@@ -274,25 +274,25 @@
 # -----
 @2:configuration {auto,frumpy,jumpy,tweety,handy,crafty,trendy}[crafty] # default config for options not explicitly given
 
-@2:partial-check {0,10,20,30,40,50}[10] # only for disjunctive ASP
-@2:loops {common,distinct,shared,no}[no]
-@2:score-other {no,loop,all}[loop]
+@2:partial-check {0,10,20,30,40,50}[0] # only for disjunctive ASP
+@2:loops {common,distinct,shared,no}[common]
+@2:score-other {auto,no,loop,all}[auto]
 # @1:enum-mode {bt, record, auto}[auto]
 # OPTIMIZATION OPTIONS
 @2:0:opt-strategy {usc,bb} [usc]
 @2:1:BB:opt-strategy {lin,hier,inc,dec}[lin]
 @2:1:USC:opt-strategy {oll,one,pmres,k} [oll]
-@2:2:USC:opt-strategy [0,7][1]i
+@2:2:USC:opt-strategy [0,7][0]i
 @2:2:USCK:opt-strategy [0,1024][0]i
 @2:3:USCK:opt-strategy [0,7][1]i
 @2:0:opt-usc-shrink {lin,inv,bin,rgs,exp,min,no}[no]
 @2:1:opt-usc-shrink [0,12][10]i
 @2:opt-heuristic {0,1,2,3}[0]
 @2:F:restart-on-model {yes,no}[no]
-@2:reset-restarts {no,repeat,disable}[disable]
+@2:reset-restarts {no,repeat,disable}[no]
 # --- HEURISTICS
 @2:0:heuristic {Berkmin,Vmtf,Vsids,Unit,Domain,None}[Domain]
-@2:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [99] # Conditional - heuristic=vsids
+@2:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [0] # Conditional - heuristic=vsids
 @2:1:vmtf:heuristic [1,128][8]il # Conditional - heuristic=vmtf
 @2:1:berk:heuristic {0,128,256,512,1024,2048}[0] # Conditional - heuristic=berkmin
 @2:S:vsids-progress {yes,no}[no]
@@ -300,24 +300,24 @@
 @2:1:vsids-progress [80,95][80]i # Conditional - heuristic=vsids
 @2:2:vsids-progress [1,15][1]i
 @2:3:vsids-progress [100,30000][5000]il
-@2:F:init-moms {yes,no}[no]
+@2:F:init-moms {yes,no}[yes]
 @2:F:nant {yes,no}[no]
 @2:sign-def {asp,pos,neg,rnd}[asp]
 @2:F:sign-fix {yes,no}[no]
-@2:score-res {min,set,multiset}[multiset] # Conditional - only for lookback heuristics
+@2:score-res {auto,min,set,multiset}[auto] # Conditional - only for lookback heuristics
 @2:F:berk-huang {yes,no}[no] # Conditional - heuristic=berkmin
 @2:F:vsids-acids {yes,no}[no] # Conditional - heuristic=vsids|doman
-@2:0:dom-mod {level,pos,true,neg,false,init,factor}[level] # Conditional - heuristic=Domain
+@2:0:dom-mod {no,level,pos,true,neg,false,init,factor}[no] # Conditional - heuristic=Domain
 @2:1:dom-mod {0,1,8,24}[0] # Conditional - heuristic=Domain
 @2:save-progress [0,180][180]i
 @2:init-watches {rnd,first,least}[rnd]
 #@1:1:lookahead {atom,body,hybrid,no}[no]
 #@1:2:lookahead [1,2147483647][1]il # Conditional - 1:lookahead != no
-@2:rand-freq {0.0,0.01,0.02,0.05,0.1}[0.01]
+@2:rand-freq {0.0,0.01,0.02,0.05,0.1}[0.0]
 # --- RESTARTS
 @2:0:restarts {F,L,D,x,+,no}[x]
 # first parameter for all "normal" restarts
-@2:1:Simp:restarts [1,65535][128]il
+@2:1:Simp:restarts [1,65535][100]il
 # Luby restarts
 @2:S:Luby:aryrestarts {1,2}[1]
 @2:2:Luby:restarts [1,65535][1000]il
@@ -336,7 +336,7 @@
 @2:3:Dyn:restarts [20,127][32]il
 # Other restart options
 @2:F:local-restarts {yes,no}[no]
-@2:S:counterCond {yes,no} [yes]
+@2:S:counterCond {yes,no} [no]
 @2:1:counter-restarts [1,127][3]il
 @2:2:counter-restarts [10,16384][12]il
 @2:0:block-restarts {0,1000,2000,5000,7500,10000}[0]
@@ -346,15 +346,15 @@
 @2:S:deletion {yes,no}[yes]
 @2:deletion {no}[no]
 @2:1:deletion {basic,sort,ipSort,ipHeap}[basic] # Algorithm
-@2:2:deletion [10,100][74]i # Fraction to remove
+@2:2:deletion [10,100][75]i # Fraction to remove
 @2:3:deletion {activity,lbd,mixed}[activity] # Score function
 @2:1:del-init [1.0,50.0][3.0]
-@2:2:del-init [10,1023][1023]il
-@2:3:del-init [500,32767][9000]i
-@2:del-max [32767,2147483647][250000]i
+@2:2:del-init [10,1023][10]il
+@2:3:del-init [500,32767][32767]i
+@2:del-max [32767,2147483647][2147483647]i
 @2:del-estimate {0,1,2,3}[0] # only for ASP + PB
 @2:del-on-restart [0,50][0]i
-@2:1:del-glue [0,8][2]i
+@2:1:del-glue [0,8][0]i
 @2:2:del-glue {0,1}[0]
 @2:0:del-cfl {F,L,x,+,no}[no]
 # Deletion conflict schedule
@@ -365,7 +365,7 @@
 @2:S:del-grow {yes,no}[yes] # Conditional: enable/disable grow strategy
 @2:del-grow {0}[0]
 @2:1:del-grow [1.0,5.0][1.1]
-@2:2:del-grow [0.0,100.0][20.0]
+@2:2:del-grow [0.0,100.0][3.0]
 @2:S:growSched {yes,no}[no]
 # Deletion size schedule
 @2:3:del-grow {F,L,x,+}[+]
@@ -374,14 +374,14 @@
 @2:5:A:del-grow [1,65535][100]il
 @2:6:del-grow [10,65535][10]il
 # --- MISC
-@2:0:strengthen {local,recursive,no}[recursive] # Conditional
+@2:0:strengthen {local,recursive,no}[local] # Conditional
 @2:1:strengthen {all,short,binary}[all]
 @2:2:strengthen {yes,no}[yes]
-@2:otfs {0,1,2}[2]
+@2:otfs {0,1,2}[0]
 @2:1:update-lbd {no,less,glucose,pseudo}[no]
 @2:2:update-lbd [0,30][0]i
 @2:F:update-act {yes,no}[no]
-@2:reverse-arcs {0,1,2,3}[1]
+@2:reverse-arcs {0,1,2,3}[0]
 @2:S:contraction {yes,no}[no]
 @2:No:contraction {no}[no]
 @2:contraction [1,1023][250]il # Conditional
