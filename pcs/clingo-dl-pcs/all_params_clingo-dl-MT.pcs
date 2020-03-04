@@ -176,7 +176,7 @@
 @1:F:vsids-acids | @1:0:heuristic in {Vsids,Domain}
 @1:score-res | @1:0:heuristic in {Berkmin,Vmtf,Vsids,Domain}
 @1:0:dom-mod | @1:0:heuristic in {Domain}
-@1:1:dom-mod | @1:0:heuristic in {Domain}
+@1:1:dom-mod | @1:0:heuristic in {Domain} && @2:0:dom-mod in {level,pos,true,neg,false,init,factor}
 @1:1:vsids:heuristic | @1:0:heuristic in {Vsids,Domain}
 @1:1:vmtf:heuristic | @1:0:heuristic in {Vmtf}
 @1:1:berk:heuristic | @1:0:heuristic in {Berkmin}
@@ -391,7 +391,7 @@
 @2:F:vsids-acids | @2:0:heuristic in {Vsids,Domain}
 @2:score-res | @2:0:heuristic in {Berkmin,Vmtf,Vsids,Domain}
 @2:0:dom-mod | @2:0:heuristic in {Domain}
-@2:1:dom-mod | @2:0:heuristic in {Domain}
+@2:1:dom-mod | @2:0:heuristic in {Domain} && @2:0:dom-mod in {level,pos,true,neg,false,init,factor}
 @2:1:vsids:heuristic | @2:0:heuristic in {Vsids,Domain}
 @2:1:vmtf:heuristic | @2:0:heuristic in {Vmtf}
 @2:1:berk:heuristic | @2:0:heuristic in {Berkmin}
