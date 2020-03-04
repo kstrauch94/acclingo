@@ -67,7 +67,7 @@
 @1:reset-restarts {no,repeat,disable}[no]
 # --- HEURISTICS
 @1:0:heuristic {Berkmin,Vmtf,Vsids,Unit,Domain,None}[Domain]
-@1:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [0] # Conditional - heuristic=vsids
+@1:1:vsids:heuristic {0,75,85,92,93,94,95,96,97,98,99} [0] # Conditional - heuristic=vsids
 @1:1:vmtf:heuristic [1,128][8]il # Conditional - heuristic=vmtf
 @1:1:berk:heuristic {0,128,256,512,1024,2048}[0] # Conditional - heuristic=berkmin
 @1:S:vsids-progress {yes,no}[no]
@@ -292,7 +292,7 @@
 @2:reset-restarts {no,repeat,disable}[no]
 # --- HEURISTICS
 @2:0:heuristic {Berkmin,Vmtf,Vsids,Unit,Domain,None}[Domain]
-@2:1:vsids:heuristic {75,85,92,93,94,95,96,97,98,99} [0] # Conditional - heuristic=vsids
+@2:1:vsids:heuristic {0,75,85,92,93,94,95,96,97,98,99} [0] # Conditional - heuristic=vsids
 @2:1:vmtf:heuristic [1,128][8]il # Conditional - heuristic=vmtf
 @2:1:berk:heuristic {0,128,256,512,1024,2048}[0] # Conditional - heuristic=berkmin
 @2:S:vsids-progress {yes,no}[no]
