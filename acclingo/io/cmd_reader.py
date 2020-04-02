@@ -50,6 +50,13 @@ class CMDReader(object):
                               choices=["runtime", "quality"],
                               help="run objective")
 
+        opt_opts.add_argument("--mode", default="Smac4ac",
+                              choices=["Hydra", "Smac4ac"],
+                              help="Run regular Smac or Hydra")
+        opt_opts.add_argument("--hydra_iterations", default=6, type=int,
+                              help="If using Hydra mode: How many iterations to use(portfolio size)")
+
+
         opt_opts.add_argument("--binary", default="binaries/clingo",
                               help="target binary")
         opt_opts.add_argument("--pcs_file", default="pcs/params.pcs",
