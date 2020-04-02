@@ -3,8 +3,14 @@ import logging
 import importlib.util
 
 from smac.facade.smac_ac_facade import SMAC4AC
+from smac.facade.smac_hpo_facade import SMAC4HPO
+from smac.facade.smac_bo_facade import SMAC4BO
 from smac.facade.experimental.hydra_facade import Hydra
+
 from smac.intensification.intensification import Intensifier
+from smac.intensification.hyperband import Hyperband
+from smac.intensification.successive_halving import SuccessiveHalving
+
 from smac.scenario.scenario import Scenario
 
 from acclingo.io.cmd_reader import CMDReader
@@ -52,19 +58,53 @@ class ACClingo(object):
         else:
             tae_class = ClaspTAE
 
-        if args_.mode == "Hydra":
+        if args_.intensifier == "hyperband":
+            intensifier = Hyperband
+            intensifier_kwargs = {"min_chall": 1}
+
+        elif args_.intensifier == "successive_halving":
+            intensifier = SuccessiveHalving
+            intensifier_kwargs = {"min_chall": 1}
+
+        else:
+            intensifier = None
+            intensifier_kwargs = {}
+
+        if args_.mode == "HYDRA":
 
             smac = Hydra(scenario=scen,
                          rng=args_.seed,
                          n_iterations=args_.hydra_iterations,
                          tae=tae_class,
-                         tae_kwargs=tae_args)
+                         tae_kwargs=tae_args,
+                         intensifier=intensifier,
+                         intensifier_kwargs=intensifier_kwargs)
 
-        elif args_.mode == "Smac4ac":
+        elif args_.mode == "SMAC4AC":
                 
             smac = SMAC4AC(scenario=scen,
                            rng=args_.seed,
                            tae_runner=tae_class,
-                           tae_runner_kwargs=tae_args)
+                           tae_runner_kwargs=tae_args,
+                           intensifier=intensifier,
+                           intensifier_kwargs=intensifier_kwargs)
+
+        elif args_.mode == "SMAC4HPO":
+
+            smac = SMAC4HPO(scenario=scen,
+                            rng=args_.seed,
+                            tae_runner=tae_class,
+                            tae_runner_kwargs=tae_args,
+                            intensifier=intensifier,
+                            intensifier_kwargs=intensifier_kwargs)
+
+        elif args_.mode == "SMAC4BO":
+
+            smac = SMAC4BO(scenario=scen,
+                           rng=args_.seed,
+                           tae_runner=tae_class,
+                           tae_runner_kwargs=tae_args,
+                           intensifier=intensifier,
+                           intensifier_kwargs=intensifier_kwargs)
 
         conf = smac.optimize()
