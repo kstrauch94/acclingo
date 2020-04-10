@@ -177,8 +177,10 @@ class ClaspOptTAE(ExecuteTARun):
 
         ta_status, ta_quality, clingo_runtime = self.parse_output(fn=solver_file, exit_code=ta_exit_code)
         
-        if ta_runtime is None:
+        if ta_runtime is None and clingo_runtime is not None:
             ta_runtime = clingo_runtime
+        elif ta_runtime is None and clingo_runtime is None:
+            ta_runtime = cutoff
             
         if not ta_status:
             ta_status = ta_status_rs
@@ -419,9 +421,13 @@ class ClaspOptTAE(ExecuteTARun):
         elif re.search('INDETERMINATE', data):
             ta_status = StatusType.TIMEOUT
 
-        clingo_runtime = re.search(r"Time[ ]*:[ ]*(\d+\.\d+)s", data).group(1)
+        clingo_runtime_res = re.search(r"Time[ ]*:[ ]*(\d+\.\d+)s", data)
+        if clingo_runtime_res is not None:
+            clingo_runtime = float(clingo_runtime_res.group(1))
+        else:
+            clingo_runtime = None
         
-        return ta_status, ta_quality, float(clingo_runtime)
+        return ta_status, ta_quality, clingo_runtime
 
     def read_runsolver_output(self, watcher_fn: str):
         '''
