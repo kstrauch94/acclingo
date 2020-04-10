@@ -51,14 +51,10 @@ class CMDReader(object):
                               help="run objective")
 
         opt_opts.add_argument("--mode", default="SMAC4AC",
-                              choices=["HYDRA", "SMAC4AC", "SMAC4HPO", "SMAC4BO"],
+                              choices=["HYDRA", "SMAC4AC"],
                               help="Run the chosen smac type")
         opt_opts.add_argument("--hydra_iterations", default=3, type=int,
                               help="If using Hydra mode: How many iterations to use(portfolio size)")
-
-        opt_opts.add_argument("--intensifier", default=None,
-                              choices=["hyperband", "successive_halving", None],
-                              help="Use the selected intesifier. If None is given it will use the default Intersifier.")
 
         opt_opts.add_argument("--binary", default="binaries/clingo",
                               help="target binary")
